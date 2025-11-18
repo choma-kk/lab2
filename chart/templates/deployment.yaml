@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 5000
+        env:
+        - name: REDIS_HOST
+          value: {{ .Values.env.REDIS_HOST | quote }}
+        - name: REDIS_PORT
+          value: {{ .Values.env.REDIS_PORT | quote }}
+        - name: MILVUS_HOST
+          value: {{ .Values.env.MILVUS_HOST | quote }}
+        - name: MILVUS_PORT
+          value: {{ .Values.env.MILVUS_PORT | quote }}
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
