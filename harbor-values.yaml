@@ -1,0 +1,69 @@
+expose:
+  type: ingress
+  tls:
+    secretName: "wildcard-tls-secret"
+  ingress:
+    hosts:
+      core: harbor.k8s.labs.itmo.loc
+    className: "public"
+
+persistence:
+  enabled: true
+  resourcePolicy: "keep"
+  persistentVolumeClaim:
+    registry:
+      storageClass: "microk8s-hostpath"
+    chartmuseum:
+      storageClass: "microk8s-hostpath"
+    jobservice:
+      storageClass: "microk8s-hostpath"
+    database:
+      storageClass: "microk8s-hostpath"
+    redis:
+      storageClass: "microk8s-hostpath"
+
+externalURL: https://harbor.k8s.labs.itmo.loc
+
+harborAdminPassword: "Harbor12345"
+
+chartmuseum:
+  enabled: true
+
+trivy:
+  enabled: false
+
+portal:
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+
+core:
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+
+jobservice:
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+
+registry:
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+
+redis:
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+
+database:
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
