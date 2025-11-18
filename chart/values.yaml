@@ -1,0 +1,25 @@
+replicaCount: 1
+
+image:
+  repository: ai-web-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5000
+
+ingress:
+  enabled: true
+  className: "public"
+  host: "ai-app.k8s.labs.itmo.loc"
+  path: "/"
+  pathType: "Prefix"
+  tls: true
+  secretName: "wildcard-tls-secret"
+
+env:
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  MILVUS_HOST: "milvus" 
+  MILVUS_PORT: "19530"
