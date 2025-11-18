@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ai-web-app
+description: A Flask web application with Redis and Milvus
+type: application
+version: 0.1.0
+appVersion: "1.0"
